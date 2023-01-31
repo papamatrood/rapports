@@ -60,6 +60,30 @@ export function useAddRapport(url, method = 'POST', callback = null) {
                 callback(response)
             }
         } catch (error) {
+            setErrors({ Erreur: 'Erreur', message: 'Une erreur l\'ors de l\'ajout des données' })
+        }
+        setLoading(false)
+    }, [url, method, callback])
+
+    return {
+        errors,
+        load,
+        loading
+    }
+}
+
+
+export function useUpdateRapport(url, method = 'PUT', callback = null) {
+    const [errors, setErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+    const load = useCallback(async (data = null) => {
+        setLoading(true);
+        try {
+            const response = await jsonLdFetch(url, method, data);
+            if (callback) {
+                callback(response)
+            }
+        } catch (error) {
             setErrors({ Erreur: 'Erreur', message: 'Une erreur l\'ors de la modification des données' })
         }
         setLoading(false)

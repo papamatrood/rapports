@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import FormRapport from "../form/formRapport";
+import AddRapport from "../form/addRapport";
 import Rapport from "../component/rapport";
 import Graph from "../component/graph";
 import Pagination from "../component/pagination";
@@ -10,7 +10,7 @@ import { useGetRapports } from "../hooks/rapportHooks";
 
 
 const List = () => {
-    const { rapports, load, loading, setRapports } = useGetRapports('http://localhost:8000/api/rapports');
+    const { rapports, load, loading, setRapports } = useGetRapports('http://localhost:8000/my_api/rapports');
     const [currentPage, setCurrentPage] = useState(1);
     const [perPage, setPerPage] = useState(7);
 
@@ -77,7 +77,7 @@ const List = () => {
                             perPage={perPage}
                             setCurrentPage={setCurrentPage}
                             currentPage={currentPage} />}
-                        <FormRapport onRapport={addRapport} />
+                        <AddRapport onRapport={addRapport} />
                     </div>
                 </div>
             </div>

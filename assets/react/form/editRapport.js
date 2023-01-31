@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import dateHelper from "../helpers/helpers";
 import RapportServices from "../services/rapportServices";
 
-function RapportForm({ rapport }) {
+function EditRapport({ rapport }) {
     const [form, setForm] = useState({
         installation: { value: rapport.installation, isValid: true },
         interqualite: { value: rapport.interqualite, isValid: true },
@@ -38,7 +38,7 @@ function RapportForm({ rapport }) {
         rapport.recuperation = form.recuperation.value;
         rapport.autre = form.autre.value;
         console.log(rapport);
-        RapportServices.updateRapport(rapport).then(() => navigate('/list'));
+        RapportServices.updateRapport(rapport).then(() => navigate('/'));
     }
 
 
@@ -46,7 +46,7 @@ function RapportForm({ rapport }) {
         <div className="modal-body">
             <div className="row mb-3">
                 <div className="col">
-                    <label for="installations" className="form-label">Installations:</label>
+                    <label htmlFor="installations" className="form-label">Installations:</label>
                     <input
                         type="number"
                         className="form-control form-control-sm"
@@ -56,7 +56,7 @@ function RapportForm({ rapport }) {
                         onChange={handleChange} />
                 </div>
                 <div className="col">
-                    <label for="interqualites" className="form-label">Inter-Qualités:</label>
+                    <label htmlFor="interqualites" className="form-label">Inter-Qualités:</label>
                     <input
                         type="number"
                         className="form-control form-control-sm"
@@ -68,7 +68,7 @@ function RapportForm({ rapport }) {
             </div>
             <div className="row mb-3">
                 <div className="col">
-                    <label for="interdepannages" className="form-label">Inter-Dépannages:</label>
+                    <label htmlFor="interdepannages" className="form-label">Inter-Dépannages:</label>
                     <input
                         type="number"
                         className="form-control form-control-sm"
@@ -78,7 +78,7 @@ function RapportForm({ rapport }) {
                         onChange={handleChange} />
                 </div>
                 <div className="col">
-                    <label for="visites" className="form-label">Visites:</label>
+                    <label htmlFor="visites" className="form-label">Visites:</label>
                     <input
                         type="number"
                         className="form-control form-control-sm"
@@ -90,7 +90,7 @@ function RapportForm({ rapport }) {
             </div>
             <div className="row mb-3">
                 <div className="col">
-                    <label for="recuperations" className="form-label">Récuperations:</label>
+                    <label htmlFor="recuperations" className="form-label">Récuperations:</label>
                     <input
                         type="number"
                         className="form-control form-control-sm"
@@ -100,7 +100,7 @@ function RapportForm({ rapport }) {
                         onChange={handleChange} />
                 </div>
                 <div className="col">
-                    <label for="autres" className="form-label">Autres:</label>
+                    <label htmlFor="autres" className="form-label">Autres:</label>
                     <input
                         type="text"
                         className="form-control form-control-sm"
@@ -112,7 +112,7 @@ function RapportForm({ rapport }) {
             </div>
             <div className="row">
                 <div className="col">
-                    <label for="rapportDate" className="form-label">Date:</label>
+                    <label htmlFor="rapportDate" className="form-label">Date:</label>
                     <input
                         type="date"
                         className="form-control form-control-sm"
@@ -131,4 +131,4 @@ function RapportForm({ rapport }) {
     </form>
 }
 
-export default RapportForm;
+export default EditRapport;

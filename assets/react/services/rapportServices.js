@@ -1,13 +1,13 @@
 export default class RapportServices {
 
     static getRapports() {
-        return fetch(`http://localhost:8000/api/rapports`)
+        return fetch(`http://localhost:8000/my_api/rapports`)
             .then(response => response.json())
             .catch(error => this.handleError(error));
     }
 
     static addRapport(rapport) {
-        return fetch(`http://localhost:8000/api/addRapport`, {
+        return fetch(`http://localhost:8000/my_api/addRapport`, {
             method: 'POST',
             body: JSON.stringify(rapport),
             headers: { 'Content-Type': 'application/json' }
@@ -17,7 +17,7 @@ export default class RapportServices {
     }
 
     static updateRapport(rapport) {
-        return fetch(`http://localhost:8000/api/rapport/${rapport.id}`, {
+        return fetch(`http://localhost:8000/my_api/editRapport/${rapport.id}`, {
             method: 'PUT',
             body: JSON.stringify(rapport),
             headers: { 'Content-Type': 'application/json' }
@@ -27,7 +27,7 @@ export default class RapportServices {
     }
 
     static deleteRapport(rapport) {
-        return fetch(`http://localhost:8000/api/rapport/delete/${rapport.id}`, {
+        return fetch(`http://localhost:8000/my_api/delete/${rapport.id}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' }
         })
