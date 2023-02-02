@@ -4,14 +4,17 @@ import RapportServices from "../services/rapportServices";
 import { useNavigate } from "react-router-dom";
 import Modal from "./modal";
 
-const Rapport = ({ rapport }) => {
+const Rapport = ({ rapport, setRapports, rapports }) => {
 
     let myDate = dateHelper(rapport.createdAt);
     let navigate = useNavigate();
 
-    const handleDelete = () => {
+    const handleDelete = (id) => {
         if (confirm("êtes vous sûr de cette action ?")) {
-            RapportServices.deleteRapport(rapport).then(() => navigate('/list'));
+            const rapportsCopy = [...rapports];
+            const rapportsCopyUpdated = rapportsCopy.filter(r => r.id !== id)
+            setRapports(rapportsCopyUpdated)
+            RapportServices.deleteRapport(rapport);
         }
     }
 
@@ -31,7 +34,7 @@ const Rapport = ({ rapport }) => {
                         href=""
                     >Modifier</a> */}
                     <Modal rapport={rapport} />
-                    <a className="btn btn-sm btn-danger d-inline" onClick={handleDelete}>Supprimer</a>
+                    <a className="btn btn-sm btn-danger d-inline" onClick={() => handleDelete(rapport.id)}>Supprimer</a>
                 </div>
 
 

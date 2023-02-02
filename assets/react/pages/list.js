@@ -1,10 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import AddRapport from "../form/addRapport";
 import Rapport from "../component/rapport";
 import Graph from "../component/graph";
 import Pagination from "../component/pagination";
-import RapportServices from "../services/rapportServices";
 import { useGetRapports } from "../hooks/rapportHooks";
 
 
@@ -18,22 +16,9 @@ const List = () => {
     const firstIndex = lastIndex - perPage;
     const currentRapports = rapports.slice(firstIndex, lastIndex);
 
-    const addRapport = useCallback(rapport => {
-        setRapports(rapports => [rapport, ...rapports]);
-    });
-
     useEffect(() => {
         load()
     }, []);
-
-
-    //console.log(rapports);
-    let location = useLocation();
-    let navigate = useNavigate();
-    if (location.pathname === "/list") {
-        navigate('/');
-        document.location.reload();
-    }
 
     return (
 
@@ -63,7 +48,7 @@ const List = () => {
                                 </thead>
                                 <tbody>
                                     {rapports ? (
-                                        currentRapports.map((rapport) => <Rapport key={rapport.id} rapport={rapport} />)
+                                        currentRapports.map((rapport) => <Rapport key={rapport.id} rapport={rapport} setRapports={setRapports} rapports={rapports} />)
                                     ) : (
                                         <tr>
                                             <td colspan="8">Aucun enregistrement trouvé</td>
@@ -77,7 +62,7 @@ const List = () => {
                             perPage={perPage}
                             setCurrentPage={setCurrentPage}
                             currentPage={currentPage} />}
-                        <AddRapport onRapport={addRapport} />
+                        <AddRapport setRapports={setRapports} rapports={rapports} />
                     </div>
                 </div>
             </div>

@@ -4,12 +4,12 @@ import AddUser from "../form/addUser";
 import User from "../component/user";
 import Graph from "../component/graph";
 import Pagination from "../component/pagination";
-import UserServices from "../services/userServices";
+import { useGetUsers } from "../hooks/userHooks";
 
 
 
 const UserList = () => {
-    const [users, setUsers] = useState([]);
+    const { users, load, loading, setUsers } = useGetUsers("http://localhost:8000/my_api/users");
     const [currentPage, setCurrentPage] = useState(1);
     const [perPage, setPerPage] = useState(7);
 
@@ -19,14 +19,10 @@ const UserList = () => {
 
 
     useEffect(() => {
-        UserServices.getUsers().then(data => setUsers(data));
+        load()
     }, []);
-    
+
     let location = useLocation();
-    let navigate = useNavigate();
-    if (location.pathname === "/") {
-        navigate('/users');
-    }
 
     return (
 
@@ -52,7 +48,7 @@ const UserList = () => {
                                 </thead>
                                 <tbody>
                                     {users ? (
-                                        currentUsers.map((user) => <User key={user.id} user={user} />)
+                                        currentUsers.map((user) => <User key={user.id} user={user} setUsers={setUsers} users={users} />)
                                     ) : (
                                         <tr>
                                             <td colspan="8">Aucun enregistrement trouvé</td>
@@ -66,7 +62,7 @@ const UserList = () => {
                             perPage={perPage}
                             setCurrentPage={setCurrentPage}
                             currentPage={currentPage} />}
-                        <AddUser />
+                        <AddUser setUsers={setUsers} users={users} />
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 export default class UserServices {
 
     static getUsers() {
-        return fetch(`http://localhost:8000/api/users`)
+        return fetch(`http://localhost:8000/my_api/users`)
             .then(response => response.json())
             .catch(error => this.handleError(error));
     }

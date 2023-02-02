@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import UserServices from "../services/userServices";
-import { useNavigate } from "react-router-dom";
 import { userOptions } from "../helpers/userHelpers";
+import { useAddUser } from "../hooks/userHooks";
 
-const AddUser = () => {
+const AddUser = ({setUsers, users}) => {
 
     const [form, setForm] = useState({
         firstname: { value: '', isValid: true },
@@ -14,9 +13,9 @@ const AddUser = () => {
         passwordRepeated: { value: '', isValid: true }
     });
 
-    const [alert, setAlert] = useState(false);
+    const { errors, load, loading } = useAddUser('http://localhost:8000/my_api/user', 'POST');
 
-    let navigate = useNavigate();
+    const [alert, setAlert] = useState(false);
 
     const handleChange = (event) => {
         const newField = event.target.name;
@@ -38,7 +37,7 @@ const AddUser = () => {
                 password: form.password.value
             }
             console.log(user);
-            UserServices.addUser(user).then(() => navigate('/'));
+            load(user);
             setAlert(false);
             setForm({
                 firstname: { value: '', isValid: true },
@@ -48,6 +47,8 @@ const AddUser = () => {
                 password: { value: '', isValid: true },
                 passwordRepeated: { value: '', isValid: true }
             });
+
+            setUsers(users => [user, ...users]);
         } else {
             setAlert(true);
             user = 'Pas de contenu !'

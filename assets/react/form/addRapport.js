@@ -3,7 +3,7 @@ import RapportServices from "../services/rapportServices";
 import { useNavigate } from "react-router-dom";
 import { useAddRapport } from "../hooks/rapportHooks";
 
-const AddRapport = ({ addRapport }) => {
+const AddRapport = ({ setRapports, rapports }) => {
 
     const [form, setForm] = useState({
         installation: { value: '', isValid: true },
@@ -15,9 +15,7 @@ const AddRapport = ({ addRapport }) => {
         createdAt: { value: '', isValid: true }
     });
 
-    let navigate = useNavigate();
-
-    const { errors, load, loading } = useAddRapport('http://localhost:8000/my_api/addRapport', 'POST', addRapport);
+    const { errors, load, loading } = useAddRapport('http://localhost:8000/my_api/addRapport', 'POST');
 
     const handleChange = (event) => {
         const newField = event.target.name;
@@ -38,7 +36,8 @@ const AddRapport = ({ addRapport }) => {
             autre: form.autre.value,
             createdAt: new Date()
         }
-        console.log(rapport);
+
+        setRapports(rapports => [rapport, ...rapports]);
         load(rapport);
     }
 

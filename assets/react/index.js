@@ -3,7 +3,9 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import List from "./pages/list";
 import Login from "./pages/login";
+import Logout from "./pages/logout";
 import UserList from "./pages/userList";
+import PrivateRoute from "./privateRoute";
 
 const rootID = document.getElementById('root');
 const root = createRoot(rootID);
@@ -33,24 +35,27 @@ root.render(
                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><Link className="dropdown-item" to="/users">Utilisateurs</Link></li>
                                 {/* <li><Link className="dropdown-item" to="">Profile</Link></li> */}
-                                
+
                             </ul>
                         </li>
-                        <li className="nav-item">
+                        {/* <li className="nav-item">
                             <Link className="nav-link" to="/login">Se Connecter</Link>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
-                {/* <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center">
                     <span className="font-weight-bold me-5"></span>
-                    <a href="" className="btn btn-sm btn-outline-primary">Se déconnecter</a>
-                </div> */}
+                    <Link className="btn btn-sm btn-outline-primary" to="/logout">Se déconnecter</Link>
+                </div>
             </div>
         </nav>
         <Routes>
-            <Route path="/" element={<List />} />
-            <Route path="/list" element={<List />} />
-            <Route path="/users" element={<UserList />} />
+            <Route element={<PrivateRoute />} >
+                <Route path="/" element={<List />} />
+                <Route path="/list" element={<List />} />
+                <Route path="/users" element={<UserList />} />
+                <Route path="/logout" element={<Logout />} />
+            </Route>
             <Route path="/login" element={<Login />} />
         </Routes>
     </BrowserRouter>

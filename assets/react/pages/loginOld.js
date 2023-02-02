@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AuthenticatorServices from "../services/authenticatorServices";
 import UserServices from "../services/userServices";
 
 const Login = () => {
@@ -10,9 +8,7 @@ const Login = () => {
         password: { value: '', isValid: true }
     });
 
-    const [message, setMessage] = useState("");
     const [alert, setAlert] = useState(false);
-    let navigate = useNavigate();
 
 
     const handleChange = (event) => {
@@ -27,20 +23,19 @@ const Login = () => {
         let user = ''
         if (form.email.value !== "" && form.password.value !== "") {
             user = {
-                email: form.email.value,
+                email: form.firstname.value,
                 password: form.password.value
             }
             console.log(user);
-            setMessage("Tentative de connexion en cours...");
-            AuthenticatorServices.login(user.email, user.password).then(isAuthenticated => {
-                if (!isAuthenticated) {
-                    setMessage("Identifiant ou Mot de passe incorrect.");
-                    setAlert(true);
-                    return;
-                }
-                navigate('/');
+            UserServices.Login(user).then(() => navigate('/'));
+            setAlert(false);
+            setForm({
+                email: { value: '', isValid: true },
+                password: { value: '', isValid: true }
             });
-
+        } else {
+            setAlert(true);
+            user = 'Veuillez remplir le formulaire correctement !'
         }
     }
 
@@ -48,10 +43,8 @@ const Login = () => {
         <div className="container mt-3">
             <div className="row">
                 {alert && <div className="alert alert-danger">Veuillez remplir le formulaire correctement !</div>}
-                {message && <div className="alert alert-warning">{message}</div>}
                 <div className="col-md-4"></div>
                 <div className="col-md-4">
-                    <p>admin@afribonemali.net / admin</p>
                     <h2>Se connecter</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3 mt-3">
@@ -62,7 +55,7 @@ const Login = () => {
                                 id="email"
                                 placeholder="Entrez l'e-mail"
                                 name="email"
-                                value={form.email.value}
+                                value={form.email.email}
                                 onChange={handleChange} />
                         </div>
                         <div className="mb-3">
@@ -73,7 +66,7 @@ const Login = () => {
                                 id="password"
                                 placeholder="Entrer le mot de passe"
                                 name="password"
-                                value={form.password.value}
+                                value={form.email.password}
                                 onChange={handleChange} />
                         </div>
                         {/* <div className="form-check mb-3">
